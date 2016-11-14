@@ -1,2 +1,4 @@
 asset 'angular'
 asset 'angular-material'
+asset 'angular-material-data-table'
+asset 'material-design-icons'
