@@ -2,13 +2,19 @@
   <div class="md-toolbar-tools">
     <h1>Кадровое агенство</h1>
     <span flex></span>
-    <span>
-
-    </span>
   </div>
-  <md-tabs md-selected="tabs.selectedIndex">
-    <md-tab id="tab1" aria-controls="tab1-content">Вакансии</md-tab>
-    <md-tab id="tab2" aria-controls="tab2-content">Соискатели</md-tab>
-  </md-tabs>
 </md-toolbar>
+<md-content class="md-padding" ng-controller="TabController as tab">
+  <md-tabs  md-dynamic-height md-border-bottom md-selected="selectedIndex" md-autoselect>
+    <md-tab  label="Главная">
+    </md-tab>
+    <md-tab  label="Соискатели">
+    </md-tab>
+    <md-tab  label="Вакансии">
+    </md-tab>
+  </md-tabs>
 
+  <div id="content" layout="row" layout-padding>
+    <section flex ui-view></section>
+  </div>
+</md-content>
