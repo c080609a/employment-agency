@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+  resources :employees
+
+  resources :vacancies
+
+  resources :skills
+
   get 'home/index'
 
   root 'home#index'

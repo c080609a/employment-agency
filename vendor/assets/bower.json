@@ -3,8 +3,8 @@
   "dependencies": {
     "angular": "latest",
     "angular-material": "latest",
-    "angular-material-data-table": "latest"
-  },
-  "resolutions": {
+    "angular-material-data-table": "latest",
+    "angular-resource": "latest",
+    "angular-ui-router": "latest"
   }
 }

@@ -1,0 +1,21 @@
+<h3>Список соискателей</h3>
+<md-table-container>
+    <table md-table md-row-select multiple  md-progress="promise">
+        <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+        <tr md-row>
+            <th md-column md-order-by="nameToLower"><span>Имя</span></th>
+            <th md-column md-numeric md-order-by="employees.created_at"><span>Дата создания</span></th>
+            <th md-column md-numeric md-order-by="employees.salary"><span>Зарплата</span></th>
+            <th md-column><span>Контакты</span></th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="employee in employees">
+            <td md-cell>{{employee.name}}</td>
+            <td md-cell>{{employee.created_at}}</td>
+            <td md-cell>{{employee.salary}}</td>
+            <td md-cell>{{employee.contacts}}</td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>

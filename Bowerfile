@@ -1,4 +1,5 @@
 asset 'angular'
 asset 'angular-material'
 asset 'angular-material-data-table'
-asset 'material-design-icons'
+asset 'angular-resource'
+asset 'angular-ui-router'

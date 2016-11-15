@@ -13,10 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require angular/angular
-//= require angular-messages/angular-messages
-//= require angular-animate/angular-animate
-//= require angular-material/angular-material
-//= require angular-aria/angular-aria
+//= require angular
+//= require angular-resource
+//= require angular-ui-router
+//= require angular-messages
+//= require angular-animate
+//= require angular-material
+//= require angular-aria
 //= require angular-material-data-table/dist/md-data-table
+
 //= require_tree .
