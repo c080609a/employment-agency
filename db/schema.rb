@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114160430) do
+ActiveRecord::Schema.define(version: 20161115183840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,14 +24,24 @@ ActiveRecord::Schema.define(version: 20161114160430) do
     t.datetime "updated_at",                 null: false
   end
 
+  create_table "employees_skills", id: false, force: :cascade do |t|
+    t.integer "skill_id",    null: false
+    t.integer "employee_id", null: false
+    t.index ["employee_id"], name: "index_employees_skills_on_employee_id", using: :btree
+    t.index ["skill_id"], name: "index_employees_skills_on_skill_id", using: :btree
+  end
+
   create_table "skills", force: :cascade do |t|
-    t.integer  "vacancy_id"
-    t.integer  "employee_id"
     t.string   "title"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.index ["employee_id"], name: "index_skills_on_employee_id", using: :btree
-    t.index ["vacancy_id"], name: "index_skills_on_vacancy_id", using: :btree
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skills_vacancies", id: false, force: :cascade do |t|
+    t.integer "skill_id",   null: false
+    t.integer "vacancy_id", null: false
+    t.index ["skill_id"], name: "index_skills_vacancies_on_skill_id", using: :btree
+    t.index ["vacancy_id"], name: "index_skills_vacancies_on_vacancy_id", using: :btree
   end
 
   create_table "vacancies", force: :cascade do |t|

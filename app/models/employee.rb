@@ -16,4 +16,6 @@ class Employee < ApplicationRecord
   validates :salary, presence: true, numericality: true
 
 
+
+
 end
