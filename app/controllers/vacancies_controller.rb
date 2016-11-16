@@ -16,6 +16,12 @@ class VacanciesController < ApplicationController
     render json: vacancies
   end
 
+  # create item
+  def create
+    @vacancy = Vacancy.create(vacancy_data)
+    render json: { success: @vacancy.valid? }
+  end
+
   # show single item
   def show
     render json: { data: @vacancy, skills: @skills }

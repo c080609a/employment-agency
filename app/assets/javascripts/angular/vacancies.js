@@ -5,7 +5,7 @@
                 show: {
                     method: 'GET'
                 },
-                save: {
+                update: {
                     method: 'PUT',
                     params: {id: '@id'}
                 },
@@ -76,18 +76,26 @@
             $scope.params = $stateParams;
             $scope.vacancy = {};
             $scope.skills = {};
+            $scope.pageTitle = 'Редактировать вакансию';
 
             if (id) {
                 Vacancy.show({id: id}).$promise.then(function(response) {
                     $scope.vacancy = response.data;
                     $scope.skills = response.skills;
                 });
+            } else {
+              $scope.pageTitle = 'Добавить вакансию';
             }
 
             // Save data
             $scope.saveItem = function(data) {
-              console.log(data);
-                if (data) {
+                if (data.id) {
+                  Vacancy.update(data).$promise.then(function(response) {
+                    if (response.success) {
+                      $state.go('vacancies');
+                    }
+                  });
+                } else {
                   Vacancy.save(data).$promise.then(function(response) {
                     if (response.success) {
                       $state.go('vacancies');

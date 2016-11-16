@@ -65,18 +65,18 @@
                     templateUrl: 'templates/list-vacancies.html',
                     controller: 'VacanciesCtrl'
                 })
-                .state('viewVacancy', {
-                    url: '/vacancies/:id',
-                    templateUrl: 'templates/view-vacancy.html',
-                    controller: 'SingleVacancyCtrl'
-                })
                 .state('createVacancy', {
-                    url: '/vacancies/create',
+                    url: '/vacancies/add',
                     templateUrl: 'templates/edit-vacancy.html',
                     controller: 'SingleVacancyCtrl'
                 })
+                .state('viewVacancy', {
+                    url: '/vacancies/{id:[0-9]+}',
+                    templateUrl: 'templates/view-vacancy.html',
+                    controller: 'SingleVacancyCtrl'
+                })
                 .state('editVacancy', {
-                    url: '/vacancies/:id/edit',
+                    url: '/vacancies/{id:[0-9]+}/edit',
                     templateUrl: 'templates/edit-vacancy.html',
                     controller: 'SingleVacancyCtrl'
                 });

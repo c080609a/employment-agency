@@ -28,13 +28,18 @@
             <md-list-item class="md-2-line">
                 <div class="md-list-item-text" layout="column">
                     <h4 layout="row">Требуемые навыки</h4>
-                    <div layout="row">
-                        <md-chips ng-repeat="skill in skills" layout="row">
+                    <div>
+                        <md-chips class="chips-list" ng-repeat="skill in skills">
                             <md-chip layout="column">{{skill.title}}</md-chip>
                         </md-chips>
                     </div>
                 </div>
             </md-list-item>
         </md-list>
+        <div layout="row" layout-align="end center">
+          <md-button class="md-button-primary" ui-sref="vacancies">
+            Назад
+          </md-button>
+        </div>
     </md-card>
 </div>
