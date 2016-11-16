@@ -1,1 +1,61 @@
-List vacancies
+<md-card>
+    <md-toolbar class="md-table-toolbar md-default">
+        <div class="md-toolbar-tools">
+            <h2 class="md-title">Список вакансий</h2>
+            <div flex></div>
+            <md-button class="md-icon-button" aria-label="Add new">
+                <md-tooltip>
+                    Добавить
+                </md-tooltip>
+                <md-icon>add</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-table-container>
+        <table md-table multiple  md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="setOrder">
+            <tr md-row>
+                <th md-column md-order-by="title"><span>Название</span></th>
+                <th md-column md-order-by="created_at"><span>Дата добавления</span></th>
+                <th md-column md-order-by="expiry_date"><span>Срок действия</span></th>
+                <th md-column md-numeric md-order-by="salary"><span>Зарплата</span></th>
+                <th md-column md-order-by="contacts"><span>Контактная информация</span></th>
+                <th md-column><span>Действия</span></th>
+            </tr>
+            </thead>
+            <tbody md-body>
+            <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="vacancy in vacancies">
+                <td md-cell><md-button class="normal-case" ui-sref="viewVacancy({id: {{vacancy.id}} })">{{vacancy.title}}</md-button></td>
+                <td md-cell>{{vacancy.created_at | date: 'dd.MM.yyyy'}}</td>
+                <td md-cell>{{vacancy.expiry_date | date: 'dd.MM.yyyy'}}</td>
+                <td md-cell>{{vacancy.salary | currency}}</td>
+                <td md-cell>{{vacancy.contacts}}</td>
+                <td md-cell>
+                    <md-menu>
+                        <md-button ng-click="openMenu($mdOpenMenu, $event)">
+                            <md-tooltip md-delay="500">
+                                Действия
+                            </md-tooltip>
+                            <md-icon>more_vert</md-icon>
+                        </md-button>
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <md-button ui-sref="editVacancy({id: {{vacancy.id}} })">
+                                    <md-icon>edit</md-icon>
+                                    Редактировать
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="confirmDeletion($event, vacancy.id)">
+                                    <md-icon>delete</md-icon>
+                                    Удалить
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </td>
+            </tbody>
+        </table>
+    </md-table-container>
+</md-card>
+

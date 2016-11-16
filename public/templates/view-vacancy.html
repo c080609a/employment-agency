@@ -1,1 +1,40 @@
-View vacancies
+<div layout="row">
+    <md-card flex-gt-sm="50" flex="100">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{vacancy.title}}</span>
+                <span class="md-subhead">{{vacancy.created_at | date: 'dd.MM.yyyy' }}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-list>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4>Действительно до</h4>
+                    <p>{{vacancy.expiry_date | date: 'dd.MM.yyyy' }}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4>Зарплата</h4>
+                    <p>{{vacancy.salary}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4>Контактная информация</h4>
+                    <p>{{vacancy.contacts}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4 layout="row">Требуемые навыки</h4>
+                    <div layout="row">
+                        <md-chips ng-repeat="skill in skills" layout="row">
+                            <md-chip layout="column">{{skill.title}}</md-chip>
+                        </md-chips>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-card>
+</div>

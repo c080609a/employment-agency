@@ -1,1 +1,52 @@
-Edit vacancy
+<div layout="row">
+    <md-card flex-gt-sm="50" flex="100">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Редактировать вакансию</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <form ng-submit="saveItem(vacancy)" name="vacancyForm">
+                <div>
+                    <md-input-container class="md-block">
+                        <label>Название</label>
+                        <input required ng-model="vacancy.title" name="title">
+                        <div ng-messages="vacancyForm.title.$error">
+                          <div ng-message="required">Это поле обязательно для заполнения</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Действительно до</label>
+                        <input required ng-model="vacancy.expiry_date" name="expiry_date">
+                        <div ng-messages="vacancyForm.expiry_date.$error">
+                          <div ng-message="required">Это поле обязательно для заполнения</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Зарплата</label>
+                        <input required type="number" min="0" ng-model="vacancy.salary" name="salary">
+                        <div ng-messages="vacancyForm.salary.$error">
+                          <div ng-message="required">Это поле обязательно для заполнения</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Контактная информация</label>
+                        <input required type="email" ng-model="vacancy.contacts" name="contacts">
+                    </md-input-container>
+                    <!--<md-input-container class="md-block">
+                        <label>Требуемые навыки</label>
+                        <md-chips ng-model="skills" name="skillTitle">
+                            <md-chip-template>
+                                <span>{{chip}}</span>
+                            </md-chip-template>
+                        </md-chips>
+                    </md-input-container>-->
+                </div>
+                <div layout="row" layout-align="end center">
+                    <md-button ui-sref="vacancies">Отмена</md-button>
+                    <md-button type="submit" class="md-primary">Сохранить</md-button>
+                </div>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>
