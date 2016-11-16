@@ -1,6 +1,6 @@
 class EmployeesController < ApplicationController
 
-  before_action :find_employee, only: [:show]
+  before_action :find_employee, only: [:show, :destroy]
   skip_before_action :verify_authenticity_token
 
   # get all items with sorting & pagination
@@ -14,6 +14,12 @@ class EmployeesController < ApplicationController
     end
     employees = Employee.order("#{ord} #{dir}").all
     render json: employees
+  end
+
+  # delete item
+  def destroy
+    @employee.delete
+    render json: { success: @employee.destroyed? }
   end
 
   # show single item

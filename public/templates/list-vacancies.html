@@ -28,7 +28,7 @@
                 <td md-cell><md-button class="normal-case" ui-sref="viewVacancy({id: {{vacancy.id}} })">{{vacancy.title}}</md-button></td>
                 <td md-cell>{{vacancy.created_at | date: 'dd.MM.yyyy'}}</td>
                 <td md-cell>{{vacancy.expiry_date | date: 'dd.MM.yyyy'}}</td>
-                <td md-cell>{{vacancy.salary | currency}}</td>
+                <td md-cell>{{vacancy.salary}}</td>
                 <td md-cell>{{vacancy.contacts}}</td>
                 <td md-cell>
                     <md-menu>

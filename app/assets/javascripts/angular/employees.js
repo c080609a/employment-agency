@@ -8,32 +8,63 @@
                 update: {
                     method: 'PUT',
                     params: {id: '@id'}
+                },
+                delete: {
+                    method: 'DELETE',
+                    params: {id: '@id'}
                 }
             });
         })
-        .controller('EmployeesCtrl', function ($scope, Employee) {
-            var originatorEv;
+        .controller('EmployeesCtrl', function ($scope, $state, $stateParams, $mdDialog, Employee) {
+          var originatorEv;
 
-            $scope.query = {
-                order: 'name',
-                dir: 'asc',
-                page: 1
-            }
+          $scope.employees = {};
 
-            $scope.openMenu = function($mdOpenMenu, ev) {
-                originatorEv = ev;
-                $mdOpenMenu(ev);
-            };
+          $scope.query = {
+              order: 'name',
+              dir: 'asc',
+              page: 1
+          }
 
-            $scope.setOrder = function () {
-                $scope.promise = Employee.query($scope.query, success).$promise;
-            };
+          $scope.openMenu = function($mdOpenMenu, ev) {
+              originatorEv = ev;
+              $mdOpenMenu(ev);
+          };
 
-            function success(items) {
-                $scope.employees = items;
-            }
+          $scope.setOrder = function () {
+              $scope.promise = Employee.query($scope.query, success).$promise;
+          };
 
-            $scope.employees = Employee.query($scope.query);
+
+          function success(items) {
+              $scope.employees = items;
+          }
+
+          $scope.retrieveList = function() {
+              $scope.promise = Employee.query($scope.query, success).$promise;
+          }
+          // Deletion confirm dialog
+          $scope.confirmDeletion = function(ev, data) {
+              var EmployeeId = data;
+              var confirm = $mdDialog.confirm()
+                  .title('Удалить запись?')
+                  .textContent('Действие невозможно будет отменить.')
+                  .ariaLabel('Delete Employee')
+                  .targetEvent(ev)
+                  .ok('ОК')
+                  .cancel('Отмена');
+
+              $mdDialog.show(confirm).then(function() {
+                  $scope.promise = Employee.delete({id: EmployeeId}).$promise;
+                  $scope.promise.then(function(response) {
+                      if (response.success) {
+                          $scope.retrieveList();
+                      }
+                  });
+              });
+          };
+
+          $scope.retrieveList();
         })
         .filter('activeOrNot', function() {
             return function(input) {
