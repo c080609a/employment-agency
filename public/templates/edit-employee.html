@@ -1,1 +1,55 @@
-Edit employee
+<div layout="row">
+    <md-card flex-gt-sm="50" flex="100">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{pageTitle}}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <form ng-submit="saveItem(employee)" name="employeeForm">
+                <div>
+                    <md-input-container class="md-block">
+                        <label>Имя</label>
+                        <input required ng-model="employee.name" name="name">
+                        <div ng-messages="employeeForm.name.$error">
+                            <div ng-message="required">Это поле обязательно для заполнения</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Контакты</label>
+                        <input required ng-model="employee.contacts" name="contacts">
+                        <div ng-messages="employeeForm.contacts.$error">
+                            <div ng-message="required">Это поле обязательно для заполнения</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-input-has-value">
+                        <label>Статус</label>
+                        <md-radio-group  class="md-block" ng-model="employee.is_active">
+                            <md-radio-button ng-value="true">Активен</md-radio-button>
+                            <md-radio-button ng-value="false">Неактивен</md-radio-button>
+                        </md-radio-group>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Желаемая зарплата</label>
+                        <input required type="number" min="0" ng-model="employee.salary" name="salary">
+                        <div ng-messages="employeeForm.salary.$error">
+                            <div ng-message="required">Это поле обязательно для заполнения</div>
+                        </div>
+                    </md-input-container>
+                    <!--<md-input-container class="md-block">
+                        <label>Требуемые навыки</label>
+                        <md-chips ng-model="skills" name="skillTitle">
+                            <md-chip-template>
+                                <span>{{chip}}</span>
+                            </md-chip-template>
+                        </md-chips>
+                    </md-input-container>-->
+                </div>
+                <div layout="row" layout-align="end center">
+                    <md-button ui-sref="employees">Отмена</md-button>
+                    <md-button type="submit" class="md-primary">Сохранить</md-button>
+                </div>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>

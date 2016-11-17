@@ -2,12 +2,15 @@
     angular.module('agencyApp.employees', [])
         .factory('Employee', function($resource) {
             return $resource('/employees/:id', {}, {
-                view: {
+                show: {
                     method: 'GET'
                 },
                 update: {
                     method: 'PUT',
                     params: {id: '@id'}
+                },
+                findVacancies: {
+                    method: 'GET'
                 },
                 delete: {
                     method: 'DELETE',
@@ -65,6 +68,43 @@
           };
 
           $scope.retrieveList();
+        })
+        .controller('SingleEmployeeCtrl', function ($scope, $state, $stateParams, Employee) {
+            var id = $stateParams.id || null;
+            $scope.state = $state.current;
+            $scope.params = $stateParams;
+            $scope.employee = {};
+            $scope.skills = {};
+            $scope.pageTitle = 'Редактировать работника';
+
+            if (id) {
+                Employee.show({id: id}).$promise.then(function(response) {
+                    $scope.employee = response.data;
+                    $scope.skills = response.skills;
+                });
+            } else {
+                $scope.pageTitle = 'Добавить работника';
+            }
+
+            // Save data
+            $scope.saveItem = function(data) {
+                if (data.id) {
+                    Employee.update(data).$promise.then(function(response) {
+                        if (response.success) {
+                            $state.go('employees');
+                        }
+                        /* TODO implement errors parsing */
+                    });
+                } else {
+                    Employee.save(data).$promise.then(function(response) {
+                        if (response.success) {
+                            $state.go('employees');
+                        }
+                        /* TODO implement errors parsing */
+                    });
+                }
+            }
+
         })
         .filter('activeOrNot', function() {
             return function(input) {

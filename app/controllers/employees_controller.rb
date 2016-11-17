@@ -1,6 +1,6 @@
 class EmployeesController < ApplicationController
 
-  before_action :find_employee, only: [:show, :destroy]
+  before_action :find_employee, only: [:show, :update, :destroy]
   skip_before_action :verify_authenticity_token
 
   # get all items with sorting & pagination
@@ -22,12 +22,42 @@ class EmployeesController < ApplicationController
     render json: { success: @employee.destroyed? }
   end
 
+  # create item
+  def create
+    @employee = Employee.create(employee_data)
+    if @employee.valid?
+      result = { success: true }
+    else
+      result = { success: false, errors: @employee.errors }
+    end
+    render json: result
+  end
+
+  # update item
+  def update
+    if @employee.update_attributes(employee_data)
+      result = { success: true }
+    else
+      result = { success: false, errors: @employee.errors }
+    end
+    render json: result
+  end
+
+
   # show single item
   def show
-    render json: @employee
+    render json: { data: @employee, skills: @skills }
   end
 
   def find_employee
     @employee = Employee.find params[:id]
+    @skills = @employee.skills
+  end
+
+  private
+
+  def employee_data
+    params.require(:employee).permit(:name, :is_active, :salary,
+                                     :contacts)
   end
 end

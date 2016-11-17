@@ -45,20 +45,20 @@
                     templateUrl: 'templates/list-employees.html',
                     controller: 'EmployeesCtrl'
                 })
-                .state('viewEmployee', {
-                    url: '/employees/:id',
-                    templateUrl: 'templates/view-employee.html',
-                    controller: 'EmployeesCtrl'
-                })
                 .state('createEmployee', {
-                    url: '/employees/create',
+                    url: '/employees/add',
                     templateUrl: 'templates/edit-employee.html',
-                    controller: 'EmployeesCtrl'
+                    controller: 'SingleEmployeeCtrl'
+                })
+                .state('viewEmployee', {
+                    url: '/employees/{id:[0-9]+}',
+                    templateUrl: 'templates/view-employee.html',
+                    controller: 'SingleEmployeeCtrl'
                 })
                 .state('editEmployee', {
-                    url: '/employees/:id/edit',
+                    url: '/employees/{id:[0-9]+}/edit',
                     templateUrl: 'templates/edit-employee.html',
-                    controller: 'EmployeesCtrl'
+                    controller: 'SingleEmployeeCtrl'
                 })
                 .state('vacancies', {
                     url: '/vacancies',

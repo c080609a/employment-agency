@@ -19,7 +19,12 @@ class VacanciesController < ApplicationController
   # create item
   def create
     @vacancy = Vacancy.create(vacancy_data)
-    render json: { success: @vacancy.valid? }
+    if @vacancy.valid?
+      result = { success: true }
+    else
+      result = { success: false, errors: @vacancy.errors }
+    end
+    render json: result
   end
 
   # show single item
@@ -33,10 +38,14 @@ class VacanciesController < ApplicationController
     render json: { success: @vacancy.destroyed? }
   end
 
-  # updte item
+  # update item
   def update
-    result = @vacancy.update_attributes(vacancy_data)
-    render json: { success: result }
+    if @vacancy.update_attributes(vacancy_data)
+      result = { success: true }
+    else
+      result = { success: false, errors: @vacancy.errors }
+    end
+    render json: result
   end
 
   # filter items by id

@@ -94,12 +94,14 @@
                     if (response.success) {
                       $state.go('vacancies');
                     }
+                    /* TODO implement errors parsing */
                   });
                 } else {
                   Vacancy.save(data).$promise.then(function(response) {
                     if (response.success) {
                       $state.go('vacancies');
                     }
+                    /* TODO implement errors parsing */
                   });
                 }
             }

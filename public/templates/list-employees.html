@@ -25,7 +25,7 @@
             <tbody md-body>
             <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="employee in employees">
                 <td md-cell><md-button class="normal-case" ui-sref="viewEmployee({id: {{employee.id}} })">{{employee.name}}</md-button></td>
-                <td md-cell>{{employee.contacts | date: 'dd.MM.yyyy'}}</td>
+                <td md-cell>{{employee.contacts}}</td>
                 <td md-cell>{{employee.is_active | activeOrNot }}</td>
                 <td md-cell>{{employee.salary}}</td>
                 <td md-cell>
