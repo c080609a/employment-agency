@@ -1,5 +1,5 @@
 (function() {
-    angular.module('agencyApp.vacancies', [])
+    angular.module('agencyApp.vacancies', ['ui.utils.masks'])
         .factory('Vacancy', function($resource) {
             return $resource('/vacancies/:id', {}, {
                 show: {

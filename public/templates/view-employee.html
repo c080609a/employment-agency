@@ -1,1 +1,48 @@
-View employee
+<div layout="row">
+    <md-card flex>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{employee.name}}</span>
+                <span class="md-subhead">{{employee.created_at | date: 'dd.MM.yyyy' }}</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-list>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4>Контакты</h4>
+                    <p>{{employee.contacts}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4>Статус</h4>
+                    <p>{{employee.is_active | activeOrNot}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line">
+                <div class="md-list-item-text" layout="column">
+                    <h4>Желаемая зарплата</h4>
+                    <p>{{employee.salary}}</p>
+                </div>
+            </md-list-item>
+            <md-list-item class="md-2-line" ng-show="skills.length">
+                <div class="md-list-item-text" layout="column">
+                    <h4 layout="row">Навыки</h4>
+                    <div>
+                        <md-chips class="chips-list" ng-repeat="skill in skills">
+                            <md-chip layout="column">{{skill.title}}</md-chip>
+                        </md-chips>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+        <div layout="row" layout-align="end center">
+            <md-button ui-sref="employees">
+                Назад
+            </md-button>
+            <md-button class="md-button-primary">
+                Найти вакансии
+            </md-button>
+        </div>
+    </md-card>
+</div>

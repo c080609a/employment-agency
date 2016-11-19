@@ -49,9 +49,16 @@ class EmployeesController < ApplicationController
     render json: { data: @employee, skills: @skills }
   end
 
+  # get a certain employee
   def find_employee
     @employee = Employee.find params[:id]
-    @skills = @employee.skills
+    @skills = @employee.skills_employees
+  end
+
+  def match_vacancies
+    full_match = Employee.get_full_match
+    partial_match = Employee.get_partial_match
+    render json: { full_match: full_match, partial_match: partial_match }
   end
 
   private

@@ -17,7 +17,7 @@
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Действительно до</label>
-                        <input required ng-model="vacancy.expiry_date" name="expiry_date">
+                        <input required  ui-date-mask ng-model="vacancy.expiry_date" name="expiry_date">
                         <div ng-messages="vacancyForm.expiry_date.$error">
                           <div ng-message="required">Это поле обязательно для заполнения</div>
                         </div>
@@ -31,7 +31,7 @@
                     </md-input-container>
                     <md-input-container class="md-block">
                         <label>Контактная информация</label>
-                        <input required type="email" ng-model="vacancy.contacts" name="contacts">
+                        <input required ng-model="vacancy.contacts" name="contacts">
                     </md-input-container>
                     <!--<md-input-container class="md-block">
                         <label>Требуемые навыки</label>

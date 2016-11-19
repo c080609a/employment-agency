@@ -51,7 +51,7 @@ class VacanciesController < ApplicationController
   # filter items by id
   def find_item
     @vacancy = Vacancy.find params[:id]
-    @skills = @vacancy.skills
+    @skills = @vacancy.skills_vacancies
   end
 
   private

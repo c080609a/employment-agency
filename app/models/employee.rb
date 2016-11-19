@@ -1,6 +1,5 @@
 class Employee < ApplicationRecord
-  has_many :skills_employee
-  has_many :skills, :through => :skills_employee
+  has_many :skills_employees
 
   # Validation
   validates_associated :skills
@@ -14,4 +13,13 @@ class Employee < ApplicationRecord
   }
   validates :contacts, presence: true, contacts: true
   validates :salary, presence: true, numericality: true
+
+  def get_full_match
+    where(status: true).order(:salary)
+  end
+
+  def get_partial_match
+    where(status: true).order(:salary)
+  end
+
 end
