@@ -21,5 +21,6 @@
 //= require angular-material
 //= require angular-aria
 //= require angular-material-data-table/dist/md-data-table
+//= require angular-input-masks
 
 //= require_tree .
