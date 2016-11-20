@@ -1,7 +1,8 @@
 class EmployeesController < ApplicationController
 
-  before_action :find_employee, only: [:show, :update, :destroy]
+  before_action :find_item, only: [:show, :update, :destroy, :match_vacancies]
   skip_before_action :verify_authenticity_token
+  attr_accessor :skills
 
   # get all items with sorting & pagination
   def index
@@ -35,6 +36,7 @@ class EmployeesController < ApplicationController
 
   # update item
   def update
+    @employee.update_skills(params[:id], params[:skills])
     if @employee.update_attributes(employee_data)
       result = { success: true }
     else
@@ -50,21 +52,15 @@ class EmployeesController < ApplicationController
   end
 
   # get a certain employee
-  def find_employee
+  def find_item
     @employee = Employee.find params[:id]
-    @skills = @employee.skills_employees
+    @skills = @employee.skills_employees.pluck(:skill)
   end
 
-  def match_vacancies
-    full_match = Employee.get_full_match
-    partial_match = Employee.get_partial_match
-    render json: { full_match: full_match, partial_match: partial_match }
-  end
 
   private
 
   def employee_data
-    params.require(:employee).permit(:name, :is_active, :salary,
-                                     :contacts)
+    params.permit(:name, :is_active, :salary, :contacts)
   end
 end

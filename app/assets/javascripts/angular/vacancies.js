@@ -70,24 +70,31 @@
 
             $scope.retrieveList();
         })
-        .controller('SingleVacancyCtrl', function ($scope, $state, $stateParams, Vacancy) {
+        .controller('SingleVacancyCtrl', function ($scope, $state, $stateParams, $http,Vacancy) {
             var id = $stateParams.id || null;
             $scope.state = $state.current;
             $scope.params = $stateParams;
-            $scope.vacancy = {};
-            $scope.skills = {};
+            $scope.foundSkills = [];
+            $scope.vacancy = {
+                skills: []
+            };
+            $scope.selectedSkills = [];
+            $scope.searchText = null;
             $scope.pageTitle = 'Редактировать вакансию';
 
             if (id) {
                 Vacancy.show({id: id}).$promise.then(function(response) {
                     $scope.vacancy = response.data;
-                    $scope.skills = response.skills;
+                    $scope.vacancy.skills = response.skills;
+                    $scope.selectedSkills = response.data.skills;
                 });
             } else {
               $scope.pageTitle = 'Добавить вакансию';
             }
 
-            // Save data
+            /**
+             * Save data
+              */
             $scope.saveItem = function(data) {
                 if (data.id) {
                   Vacancy.update(data).$promise.then(function(response) {
@@ -103,6 +110,27 @@
                     }
                     /* TODO implement errors parsing */
                   });
+                }
+            }
+
+            /**
+             * Search for skills
+             */
+            $scope.querySearch = function (query) {
+                $http({
+                    url: '/skills',
+                    params: {query: query},
+                    method: 'GET'
+                }).then(function(response) {
+                    $scope.foundSkills = response.data;
+                    return response.data;
+                });
+            }
+
+
+            $scope.transformChip = function(chip) {
+                if (angular.isObject(chip)) {
+                    return chip;
                 }
             }
 

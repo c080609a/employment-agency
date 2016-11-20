@@ -40,6 +40,7 @@ class VacanciesController < ApplicationController
 
   # update item
   def update
+    @vacancy.update_skills(params[:id], params[:skills])
     if @vacancy.update_attributes(vacancy_data)
       result = { success: true }
     else
@@ -51,13 +52,12 @@ class VacanciesController < ApplicationController
   # filter items by id
   def find_item
     @vacancy = Vacancy.find params[:id]
-    @skills = @vacancy.skills_vacancies
+    @skills = @vacancy.skills_vacancies.pluck(:skill)
   end
 
   private
 
    def vacancy_data
-     params.require(:vacancy).permit(:title, :expiry_date, :salary,
-                                  :contacts)
+     params.permit(:title, :expiry_date, :salary, :contacts)
    end
 end

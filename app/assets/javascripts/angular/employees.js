@@ -9,7 +9,8 @@
                     method: 'PUT',
                     params: {id: '@id'}
                 },
-                findVacancies: {
+                matchVacancies: {
+                    url: '/employees/:id/get_matches',
                     method: 'GET'
                 },
                 delete: {
@@ -19,74 +20,82 @@
             });
         })
         .controller('EmployeesCtrl', function ($scope, $state, $stateParams, $mdDialog, Employee) {
-          var originatorEv;
+            var originatorEv;
 
-          $scope.employees = {};
+            $scope.employees = {};
 
-          $scope.query = {
-              order: 'name',
-              dir: 'asc',
-              page: 1
-          }
+            $scope.query = {
+                order: 'name',
+                dir: 'asc',
+                page: 1
+            }
 
-          $scope.openMenu = function($mdOpenMenu, ev) {
-              originatorEv = ev;
-              $mdOpenMenu(ev);
-          };
+            $scope.openMenu = function($mdOpenMenu, ev) {
+                originatorEv = ev;
+                $mdOpenMenu(ev);
+            };
 
-          $scope.setOrder = function () {
-              $scope.promise = Employee.query($scope.query, success).$promise;
-          };
+            $scope.setOrder = function () {
+                $scope.promise = Employee.query($scope.query, success).$promise;
+            };
 
 
-          function success(items) {
-              $scope.employees = items;
-          }
+            function success(items) {
+                $scope.employees = items;
+            }
 
-          $scope.retrieveList = function() {
-              $scope.promise = Employee.query($scope.query, success).$promise;
-          }
-          // Deletion confirm dialog
-          $scope.confirmDeletion = function(ev, data) {
-              var EmployeeId = data;
-              var confirm = $mdDialog.confirm()
-                  .title('Удалить запись?')
-                  .textContent('Действие невозможно будет отменить.')
-                  .ariaLabel('Delete Employee')
-                  .targetEvent(ev)
-                  .ok('ОК')
-                  .cancel('Отмена');
+            $scope.retrieveList = function() {
+                $scope.promise = Employee.query($scope.query, success).$promise;
+            }
+            // Deletion confirm dialog
+            $scope.confirmDeletion = function(ev, data) {
+                var EmployeeId = data;
+                var confirm = $mdDialog.confirm()
+                    .title('Удалить запись?')
+                    .textContent('Действие невозможно будет отменить.')
+                    .ariaLabel('Delete Employee')
+                    .targetEvent(ev)
+                    .ok('ОК')
+                    .cancel('Отмена');
 
-              $mdDialog.show(confirm).then(function() {
-                  $scope.promise = Employee.delete({id: EmployeeId}).$promise;
-                  $scope.promise.then(function(response) {
-                      if (response.success) {
-                          $scope.retrieveList();
-                      }
-                  });
-              });
-          };
+                $mdDialog.show(confirm).then(function() {
+                    $scope.promise = Employee.delete({id: EmployeeId}).$promise;
+                    $scope.promise.then(function(response) {
+                        if (response.success) {
+                            $scope.retrieveList();
+                        }
+                    });
+                });
+            };
 
-          $scope.retrieveList();
+            $scope.retrieveList();
         })
-        .controller('SingleEmployeeCtrl', function ($scope, $state, $stateParams, Employee) {
+        .controller('SingleEmployeeCtrl', function ($scope, $state, $stateParams, $http, Employee) {
             var id = $stateParams.id || null;
             $scope.state = $state.current;
             $scope.params = $stateParams;
-            $scope.employee = {};
-            $scope.skills = {};
+            $scope.foundSkills = [];
+            $scope.employee = {
+                skills: []
+            };
             $scope.pageTitle = 'Редактировать работника';
+            $scope.selectedSkills = [];
+            $scope.searchText = null;
 
             if (id) {
                 Employee.show({id: id}).$promise.then(function(response) {
                     $scope.employee = response.data;
-                    $scope.skills = response.skills;
+                    $scope.employee.skills = response.skills;
+                    $scope.selectedSkills = response.data.skills;
+
                 });
             } else {
                 $scope.pageTitle = 'Добавить работника';
             }
 
-            // Save data
+            /**
+             * Save data
+             */
             $scope.saveItem = function(data) {
                 if (data.id) {
                     Employee.update(data).$promise.then(function(response) {
@@ -102,6 +111,33 @@
                         }
                         /* TODO implement errors parsing */
                     });
+                }
+            }
+
+            /**
+             * Search for skills
+             */
+            $scope.querySearch = function (query) {
+                $http({
+                    url: '/skills',
+                    params: {query: query},
+                    method: 'GET'
+                }).then(function(response) {
+                    $scope.foundSkills = response.data;
+                    return response.data;
+                });
+            }
+
+            $scope.matchVacancies = function(id) {
+                Employee.matchVacancies({id: id}).$promise.then(function(response) {
+                    console.log(response);
+                });
+            }
+
+
+            $scope.transformChip = function(chip) {
+                if (angular.isObject(chip)) {
+                    return chip;
                 }
             }
 

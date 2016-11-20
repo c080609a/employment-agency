@@ -25,12 +25,12 @@
                     <p>{{employee.salary}}</p>
                 </div>
             </md-list-item>
-            <md-list-item class="md-2-line" ng-show="skills.length">
+            <md-list-item class="md-2-line" ng-show="employee.skills.length">
                 <div class="md-list-item-text" layout="column">
                     <h4 layout="row">Навыки</h4>
                     <div>
-                        <md-chips class="chips-list" ng-repeat="skill in skills">
-                            <md-chip layout="column">{{skill.title}}</md-chip>
+                        <md-chips class="chips-list" ng-repeat="skill in employee.skills">
+                            <md-chip layout="column">{{skill}}</md-chip>
                         </md-chips>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
             <md-button ui-sref="employees">
                 Назад
             </md-button>
-            <md-button class="md-button-primary">
+            <md-button class="md-button-primary" ng-click="matchVacancies(employee.id)">
                 Найти вакансии
             </md-button>
         </div>

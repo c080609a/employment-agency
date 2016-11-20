@@ -33,14 +33,26 @@
                         <label>Контактная информация</label>
                         <input required ng-model="vacancy.contacts" name="contacts">
                     </md-input-container>
-                    <!--<md-input-container class="md-block">
-                        <label>Требуемые навыки</label>
-                        <md-chips ng-model="skills" name="skillTitle">
+                    <md-input-container class="md-input-has-value">
+                        <md-chips ng-model="selectedSkills" md-autocomplete-snap
+                                  md-transform-chip="transformChip($chip)"
+                                  md-require-match="false">
+                            <md-autocomplete
+                                    md-selected-item=""
+                                    md-search-text="searchText"
+                                    md-search-text-change="querySearch(searchText)"
+                                    md-items="skill in foundSkills"
+                                    md-item-text="skill"
+                                    placeholder="Требуемые навыки">
+                                <span md-highlight-text="searchText">{{skill}}</span>
+                            </md-autocomplete>
                             <md-chip-template>
-                                <span>{{chip}}</span>
+                                <span>
+                                  {{$chip}}
+                                </span>
                             </md-chip-template>
                         </md-chips>
-                    </md-input-container>-->
+                    </md-input-container>
                 </div>
                 <div layout="row" layout-align="end center">
                     <md-button ui-sref="vacancies">Отмена</md-button>

@@ -2,7 +2,7 @@ class Employee < ApplicationRecord
   has_many :skills_employees
 
   # Validation
-  validates_associated :skills
+  validates_associated :skills_employees
   validates :name, presence: true, length: {
       is: 3,
       tokenizer: lambda { |str| str.split },
@@ -14,12 +14,18 @@ class Employee < ApplicationRecord
   validates :contacts, presence: true, contacts: true
   validates :salary, presence: true, numericality: true
 
-  def get_full_match
-    where(status: true).order(:salary)
+
+
+  def update_skills(id, skills)
+    all_skills = Skill.all.pluck(:title)
+    SkillsEmployee.delete_all(employee_id: id)
+    skills.each do |skill|
+      if (all_skills.exclude? skill) then
+        Skill.create(:title => skill)
+      end
+      SkillsEmployee.create(:employee_id => id, :skill => skill)
+    end
   end
 
-  def get_partial_match
-    where(status: true).order(:salary)
-  end
 
 end

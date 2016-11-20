@@ -25,12 +25,12 @@
                     <p>{{vacancy.contacts}}</p>
                 </div>
             </md-list-item>
-            <md-list-item class="md-2-line">
+            <md-list-item class="md-2-line" ng-show="vacancy.skills.length">
                 <div class="md-list-item-text" layout="column">
                     <h4 layout="row">Требуемые навыки</h4>
                     <div>
-                        <md-chips class="chips-list" ng-repeat="skill in skills">
-                            <md-chip layout="column">{{skill.title}}</md-chip>
+                        <md-chips class="chips-list" ng-repeat="skill in vacancy.skills">
+                            <md-chip layout="column">{{skill}}</md-chip>
                         </md-chips>
                     </div>
                 </div>
