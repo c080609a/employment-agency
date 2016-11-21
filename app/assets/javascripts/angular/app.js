@@ -2,6 +2,7 @@
     angular.module('agencyApp', [
             'ngMaterial',
             'ngResource',
+            'ngRoute',
             'ngMessages',
             'ui.router',
             'agencyApp.employees',
