@@ -28,7 +28,8 @@
             $scope.query = {
                 order: 'title',
                 dir: 'asc',
-                page: 1
+                page: 1,
+                limit: 3
             }
 
             $scope.openMenu = function($mdOpenMenu, ev) {
@@ -82,6 +83,11 @@
             $scope.selectedSkills = [];
             $scope.searchText = null;
             $scope.pageTitle = 'Редактировать вакансию';
+            $scope.matchesFound = false;
+            $scope.matches = {
+                partial: [],
+                full: []
+            }
 
             if (id) {
                 Vacancy.show({id: id}).$promise.then(function(response) {
@@ -134,8 +140,17 @@
              */
             $scope.matchEmployees = function(id) {
                 Vacancy.matchEmployees({id: id}).$promise.then(function(response) {
-                    /* TODO implement */
+                    $scope.matchesFound = true;
+                    $scope.matches.full = response.full;
+                    $scope.matches.partial = response.partial;
                 });
+            }
+
+            /**
+             * Go back button action
+             */
+            $scope.goBack = function() {
+                window.history.back();
             }
 
 

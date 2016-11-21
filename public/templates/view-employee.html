@@ -37,12 +37,50 @@
             </md-list-item>
         </md-list>
         <div layout="row" layout-align="end center">
-            <md-button  class="md-button-primary" ui-sref="employees">
+            <md-button  class="md-button-primary" ng-click="goBack()">
                 Назад
             </md-button>
             <md-button class="md-button-primary" ng-click="matchVacancies(employee.id)">
                 Найти вакансии
             </md-button>
         </div>
+    </md-card>
+</div>
+
+<div layout="row" ng-show="matchesFound">
+    <md-card flex="50">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Полностью подходящие вакансии</span>
+            </md-card-title-text>
+        </md-card-title>
+        <div layout layout-padding ng-show="matches.full.length == 0">
+            <p flex>Нет результатов.</p>
+        </div>
+        <md-list ng-repeat="match in matches.full">
+            <md-list-item>
+                <div class="md-list-item-text">
+                    <md-button ui-sref="viewVacancy({id: {{match.id}} })">{{match.title}}</md-button>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-card>
+
+    <md-card flex="50">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Частично подходящие вакансии</span>
+            </md-card-title-text>
+        </md-card-title>
+        <div layout layout-padding ng-show="matches.partial.length == 0">
+            <p flex>Нет результатов.</p>
+        </div>
+        <md-list ng-repeat="match in matches.partial">
+            <md-list-item>
+                <div class="md-list-item-text">
+                    <md-button ui-sref="viewVacancy({id: {{match.id}} })">{{match.title}}</md-button>
+                </div>
+            </md-list-item>
+        </md-list>
     </md-card>
 </div>

@@ -54,7 +54,7 @@ class EmployeesController < ApplicationController
   def get_matches
     full_match = Vacancy.get_full_matches(@skills)
     partial_match = Vacancy.get_partial_matches(@skills)
-    render json: { full_match: full_match, partial_match: partial_match }
+    render json: { full: full_match, partial: partial_match }
   end
 
   # get a certain employee
