@@ -47,3 +47,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bower-rails'
 
 gem 'date_validator'
+
+gem 'rails_12factor', group: :production
+
+ruby "2.2.4"
