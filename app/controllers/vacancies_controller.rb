@@ -7,14 +7,18 @@ class VacanciesController < ApplicationController
   # get all items with sorting & pagination
   def index
     ord = params[:order]
+    limit = params[:limit].to_i
+    page = params[:page].to_i
+    offset = (page - 1) * limit
     if ord.to_s.start_with?('-') then
       dir = 'desc'
       ord.gsub!(/\-/, '')
     else
       dir = 'asc'
     end
-    vacancies = Vacancy.order("#{ord} #{dir}").all
-    render json: vacancies
+    vacancies = Vacancy.order("#{ord} #{dir}").limit(limit).offset(offset)
+    total = vacancies.except(:limit, :offset).count
+    render json: { rows: vacancies, total: total }
   end
 
   # create item

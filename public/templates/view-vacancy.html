@@ -36,14 +36,16 @@
                 </div>
             </md-list-item>
         </md-list>
-        <div layout="row" layout-align="end center">
-            <md-button class="md-button-primary" ng-click="goBack()">
-                Назад
-            </md-button>
-            <md-button class="md-button-primary" ng-click="matchEmployees(vacancy.id)">
-                Найти вакансии
-            </md-button>
-        </div>
+        <md-card-content>
+            <div layout="row" layout-align="end center">
+                <md-button class="md-raised" ng-click="goBack()">
+                    Назад
+                </md-button>
+                <md-button class="md-raised md-primary" ng-click="matchEmployees(vacancy.id)">
+                    Найти вакансии
+                </md-button>
+            </div>
+        </md-card-content>
     </md-card>
 </div>
 <div layout="row" ng-show="matchesFound">
@@ -58,7 +60,7 @@
         </div>
         <md-list ng-repeat="match in matches.full">
             <md-list-item>
-                <md-button ui-sref="viewEmployee({id: {{match.id}} })">{{match.name}}</md-button>
+                <md-button  class="md-primary" ui-sref="viewEmployee({id: {{match.id}} })">{{match.name}}</md-button>
             </md-list-item>
         </md-list>
     </md-card>
@@ -74,7 +76,7 @@
         </div>
         <md-list ng-repeat="match in matches.partial">
             <md-list-item>
-                <md-button ui-sref="viewEmployee({id: {{match.id}} })">{{match.name}}</md-button>
+                <md-button class="md-primary" ui-sref="viewEmployee({id: {{match.id}} })">{{match.name}}</md-button>
             </md-list-item>
         </md-list>
     </md-card>

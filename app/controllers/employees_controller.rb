@@ -7,14 +7,18 @@ class EmployeesController < ApplicationController
   # get all items with sorting & pagination
   def index
     ord = params[:order]
+    limit = params[:limit].to_i
+    page = params[:page].to_i
+    offset = (page - 1) * limit
     if ord.to_s.start_with?('-') then
       dir = 'desc'
       ord.gsub!(/\-/, '')
     else
       dir = 'asc'
     end
-    employees = Employee.order("#{ord} #{dir}").all
-    render json: employees
+    employees = Employee.order("#{ord} #{dir}").limit(limit).offset(offset)
+    total = employees.except(:limit, :offset).count
+    render json: { rows: employees, total: total }
   end
 
   # delete item

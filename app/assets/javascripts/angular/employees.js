@@ -2,6 +2,9 @@
     angular.module('agencyApp.employees', [])
         .factory('Employee', function($resource) {
             return $resource('/employees/:id', {}, {
+                query: {
+                    method: 'GET'
+                },
                 show: {
                     method: 'GET'
                 },
@@ -20,6 +23,7 @@
             });
         })
         .controller('EmployeesCtrl', function ($scope, $state, $stateParams, $mdDialog, Employee) {
+
             var originatorEv;
 
             $scope.employees = {};
@@ -28,21 +32,24 @@
                 order: 'name',
                 dir: 'asc',
                 page: 1,
-                limit: 3
+                limit: 10
             }
+
+            $scope.total = 0;
 
             $scope.openMenu = function($mdOpenMenu, ev) {
                 originatorEv = ev;
                 $mdOpenMenu(ev);
             };
 
-            $scope.setOrder = function () {
+            $scope.setQuery = function () {
                 $scope.promise = Employee.query($scope.query, success).$promise;
             };
 
 
-            function success(items) {
-                $scope.employees = items;
+            function success(result) {
+                $scope.employees = result.rows;
+                $scope.total = result.total;
             }
 
             $scope.retrieveList = function() {

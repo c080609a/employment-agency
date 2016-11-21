@@ -2,6 +2,9 @@
     angular.module('agencyApp.vacancies', ['ui.utils.masks'])
         .factory('Vacancy', function($resource) {
             return $resource('/vacancies/:id', {}, {
+                query: {
+                    method: 'GET'
+                },
                 show: {
                     method: 'GET'
                 },
@@ -29,21 +32,24 @@
                 order: 'title',
                 dir: 'asc',
                 page: 1,
-                limit: 3
+                limit: 10
             }
+
+            $scope.total = 0;
 
             $scope.openMenu = function($mdOpenMenu, ev) {
                 originatorEv = ev;
                 $mdOpenMenu(ev);
             };
 
-            $scope.setOrder = function () {
+            $scope.setQuery = function () {
                 $scope.promise = Vacancy.query($scope.query, success).$promise;
             };
 
 
-            function success(items) {
-                $scope.vacancies = items;
+            function success(result) {
+                $scope.vacancies = result.rows;
+                $scope.total = result.total;
             }
 
             $scope.retrieveList = function() {
