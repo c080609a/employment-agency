@@ -1,7 +1,8 @@
 class VacanciesController < ApplicationController
 
-  before_action :find_item, only: [:show, :update, :destroy]
+  before_action :find_item, only: [:show, :update, :destroy, :get_matches]
   skip_before_action :verify_authenticity_token
+  attr_accessor :skills
 
   # get all items with sorting & pagination
   def index
@@ -54,6 +55,14 @@ class VacanciesController < ApplicationController
     @vacancy = Vacancy.find params[:id]
     @skills = @vacancy.skills_vacancies.pluck(:skill)
   end
+
+  # get matching employees
+  def get_matches
+    full_match = Employee.get_full_matches(@skills)
+    partial_match = Employee.get_partial_matches(@skills)
+    render json: { full_match: full_match, partial_match: partial_match }
+  end
+
 
   private
 

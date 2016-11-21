@@ -1,6 +1,6 @@
 class EmployeesController < ApplicationController
 
-  before_action :find_item, only: [:show, :update, :destroy, :match_vacancies]
+  before_action :find_item, only: [:show, :update, :destroy, :get_matches]
   skip_before_action :verify_authenticity_token
   attr_accessor :skills
 
@@ -51,12 +51,17 @@ class EmployeesController < ApplicationController
     render json: { data: @employee, skills: @skills }
   end
 
+  def get_matches
+    full_match = Vacancy.get_full_matches(@skills)
+    partial_match = Vacancy.get_partial_matches(@skills)
+    render json: { full_match: full_match, partial_match: partial_match }
+  end
+
   # get a certain employee
   def find_item
     @employee = Employee.find params[:id]
     @skills = @employee.skills_employees.pluck(:skill)
   end
-
 
   private
 

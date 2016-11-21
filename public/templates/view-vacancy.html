@@ -1,5 +1,5 @@
 <div layout="row">
-    <md-card flex-gt-sm="50" flex="100">
+    <md-card flex>
         <md-card-title>
             <md-card-title-text>
                 <span class="md-headline">{{vacancy.title}}</span>
@@ -40,7 +40,7 @@
           <md-button class="md-button-primary" ui-sref="vacancies">
             Назад
           </md-button>
-            <md-button class="md-button-primary">
+            <md-button class="md-button-primary" ng-click="matchEmployees(vacancy.id)">
                 Найти вакансии
             </md-button>
         </div>

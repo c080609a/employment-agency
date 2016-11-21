@@ -128,9 +128,13 @@
                 });
             }
 
+            /**
+             * Search for matching vacancies
+             * @param {integer} id
+             */
             $scope.matchVacancies = function(id) {
                 Employee.matchVacancies({id: id}).$promise.then(function(response) {
-                    console.log(response);
+                    /* TODO implement */
                 });
             }
 

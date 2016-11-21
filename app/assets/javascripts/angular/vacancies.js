@@ -9,7 +9,8 @@
                     method: 'PUT',
                     params: {id: '@id'}
                 },
-                findEmployees: {
+                matchEmployees: {
+                    url: '/vacancies/:id/get_matches',
                     method: 'GET'
                 },
                 delete: {
@@ -124,6 +125,16 @@
                 }).then(function(response) {
                     $scope.foundSkills = response.data;
                     return response.data;
+                });
+            }
+
+            /**
+             * Search for matching employees
+             * @param {integer} id
+             */
+            $scope.matchEmployees = function(id) {
+                Vacancy.matchEmployees({id: id}).$promise.then(function(response) {
+                    /* TODO implement */
                 });
             }
 
