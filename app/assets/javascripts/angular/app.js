@@ -1,8 +1,8 @@
 (function() {
     angular.module('agencyApp', [
+            'ngRoute',
             'ngMaterial',
             'ngResource',
-            'ngRoute',
             'ngMessages',
             'ui.router',
             'agencyApp.employees',
