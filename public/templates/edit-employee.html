@@ -13,6 +13,9 @@
                         <input required ng-model="employee.name" name="name">
                         <div ng-messages="employeeForm.name.$error">
                             <div ng-message="required">Это поле обязательно для заполнения</div>
+                            <div ng-repeat="err in errors.name">
+                                {{err}}
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container class="md-block">
@@ -20,6 +23,9 @@
                         <input required ng-model="employee.contacts" name="contacts">
                         <div ng-messages="employeeForm.contacts.$error">
                             <div ng-message="required">Это поле обязательно для заполнения</div>
+                            <div ng-repeat="err in errors.contacts">
+                                {{err}}
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container class="md-input-has-value">
@@ -34,6 +40,10 @@
                         <input required type="number" min="0" ng-model="employee.salary" name="salary">
                         <div ng-messages="employeeForm.salary.$error">
                             <div ng-message="required">Это поле обязательно для заполнения</div>
+                            <div ng-message="min">Значение не может быть меньше 0</div>
+                            <div ng-repeat="err in errors.salary">
+                                {{err}}
+                            </div>
                         </div>
                     </md-input-container>
                     <md-input-container class="md-input-has-value">
@@ -59,7 +69,7 @@
                 </div>
                 <div layout="row" layout-align="end center">
                     <md-button class="md-raised" ui-sref="employees">Отмена</md-button>
-                    <md-button type="submit" class="md-primary md-raised">Сохранить</md-button>
+                    <md-button type="submit" class="md-primary md-raised" ng-disabled="employeeForm.$invalid">Сохранить</md-button>
                 </div>
             </form>
         </md-card-content>

@@ -116,6 +116,9 @@
             full: []
         }
 
+        // validation errors
+        $scope.errors = {};
+
         if (id) {
             Vacancy.show({id: id}).$promise.then(function(response) {
                 $scope.vacancy = response.data;
@@ -134,15 +137,17 @@
                 Vacancy.update(data).$promise.then(function(response) {
                     if (response.success) {
                         $state.go('vacancies');
+                    } else if (response.errors) {
+                        $scope.errors = response.errors;
                     }
-                    /* TODO implement errors parsing */
                 });
             } else {
                 Vacancy.save(data).$promise.then(function(response) {
                     if (response.success) {
                         $state.go('vacancies');
+                    } else if (response.errors) {
+                        $scope.errors = response.errors;
                     }
-                    /* TODO implement errors parsing */
                 });
             }
         }

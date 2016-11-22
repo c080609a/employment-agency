@@ -6,10 +6,10 @@ class Employee < ApplicationRecord
   validates :name, presence: true, length: {
       is: 3,
       tokenizer: lambda { |str| str.split },
-      wrong_length: "must have %{count} words",
+      wrong_length: "Поле должно содержать %{count} слова",
   }, format: {
       with: /\A[а-яА-Я\s]+\z/,
-      message: "must contain cyrillic letters and spaces only"
+      message: "Поле может содержать только буквы кириллицы"
   }
   validates :contacts, presence: true, contacts: true
   validates :salary, presence: true, numericality: true

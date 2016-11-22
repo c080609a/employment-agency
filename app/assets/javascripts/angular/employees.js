@@ -120,6 +120,9 @@
             full: []
         }
 
+        // validation errors
+        $scope.errors = {};
+
         if (id) {
             Employee.show({id: id}).$promise.then(function(response) {
                 $scope.employee = response.data;
@@ -139,15 +142,17 @@
                 Employee.update(data).$promise.then(function(response) {
                     if (response.success) {
                         $state.go('employees');
+                    } else if (response.errors) {
+                        $scope.errors = response.errors;
                     }
-                    /* TODO implement errors parsing */
                 });
             } else {
                 Employee.save(data).$promise.then(function(response) {
                     if (response.success) {
                         $state.go('employees');
+                    } else if (response.errors) {
+                        $scope.errors = response.errors;
                     }
-                    /* TODO implement errors parsing */
                 });
             }
         }
