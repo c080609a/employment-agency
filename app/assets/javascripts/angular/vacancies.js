@@ -5,7 +5,7 @@
         .controller('SingleVacancyCtrl', SingleVacancyCtrl);
 
     Vacancy.$inject = ['$resource'];
-    VacanciesCtrl.$inject = ['$scope', '$mdDialog', 'Vacancy'];
+    VacanciesCtrl.$inject = ['$scope', '$mdDialog', '$mdConstant','Vacancy'];
     SingleVacancyCtrl.$inject = ['$scope', '$state', '$stateParams', '$http', 'Vacancy'];
 
 
@@ -32,12 +32,13 @@
         });
     }
 
-    function VacanciesCtrl ($scope, $mdDialog, Vacancy) {
+    function VacanciesCtrl ($scope, $mdDialog, $mdConstant, Vacancy) {
 
         var originatorEv;
 
         $scope.vacancies = {};
 
+        // query params
         $scope.query = {
             order: 'title',
             dir: 'asc',
@@ -45,7 +46,16 @@
             limit: 10
         }
 
+        // total entries returned
         $scope.total = 0;
+
+        $scope.paginationLabels = {
+            of: 'из',
+            page: 'Страница:',
+            rowsPerPage: 'Показывать:'
+        }
+
+        $scope.separatorKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
         $scope.openMenu = function($mdOpenMenu, ev) {
             originatorEv = ev;

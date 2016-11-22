@@ -10,7 +10,7 @@
         });
 
     Employee.$inject = ['$resource'];
-    EmployeesCtrl.$inject = ['$scope', '$mdDialog', 'Employee'];
+    EmployeesCtrl.$inject = ['$scope', '$mdDialog', '$mdConstant','Employee'];
     SingleEmployeeCtrl.$inject = ['$scope', '$state', '$stateParams', '$http', 'Employee'];
 
     function Employee($resource) {
@@ -36,11 +36,13 @@
         });
     }
 
-    function EmployeesCtrl ($scope, $mdDialog, Employee) {
+    function EmployeesCtrl ($scope, $mdDialog, $mdConstant, Employee) {
         var originatorEv;
+
 
         $scope.employees = {};
 
+        // query params
         $scope.query = {
             order: 'name',
             dir: 'asc',
@@ -48,7 +50,16 @@
             limit: 10
         }
 
+        // total entries returned
         $scope.total = 0;
+
+        $scope.paginationLabels = {
+            of: 'из',
+            page: 'Страница:',
+            rowsPerPage: 'Показывать:'
+        }
+
+        $scope.separatorKeys = [$mdConstant.KEY_CODE.ENTER, $mdConstant.KEY_CODE.COMMA];
 
         $scope.openMenu = function($mdOpenMenu, ev) {
             originatorEv = ev;

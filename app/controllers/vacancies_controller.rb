@@ -46,7 +46,7 @@ class VacanciesController < ApplicationController
   # update item
   def update
     @vacancy.update_skills(params[:id], params[:skills])
-    if @vacancy.update_attributes(vacancy_data)
+    if @vacancy.update_attributes(vacancy_data) && @vacancy.valid?
       result = { success: true }
     else
       result = { success: false, errors: @vacancy.errors }
