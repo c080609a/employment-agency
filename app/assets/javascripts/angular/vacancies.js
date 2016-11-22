@@ -22,149 +22,157 @@
                 }
             });
         })
-        .controller('VacanciesCtrl', function ($scope, $state, $stateParams, $mdDialog, Vacancy) {
+        .controller('VacanciesCtrl', VacanciesCtrl)
+        .controller('SingleVacancyCtrl', SingleVacancyCtrl);
 
-            var originatorEv;
+    VacanciesCtrl.$inject = ['$scope', '$mdDialog', 'Vacancy'];
 
-            $scope.vacancies = {};
+    SingleVacancyCtrl.$inject = ['$scope', '$state', '$stateParams', '$http,Vacancy'];
 
-            $scope.query = {
-                order: 'title',
-                dir: 'asc',
-                page: 1,
-                limit: 10
-            }
+    function VacanciesCtrl ($scope, $mdDialog, Vacancy) {
 
-            $scope.total = 0;
+        var originatorEv;
 
-            $scope.openMenu = function($mdOpenMenu, ev) {
-                originatorEv = ev;
-                $mdOpenMenu(ev);
-            };
+        $scope.vacancies = {};
 
-            $scope.setQuery = function () {
-                $scope.promise = Vacancy.query($scope.query, success).$promise;
-            };
+        $scope.query = {
+            order: 'title',
+            dir: 'asc',
+            page: 1,
+            limit: 10
+        }
+
+        $scope.total = 0;
+
+        $scope.openMenu = function($mdOpenMenu, ev) {
+            originatorEv = ev;
+            $mdOpenMenu(ev);
+        };
+
+        $scope.setQuery = function () {
+            $scope.promise = Vacancy.query($scope.query, success).$promise;
+        };
 
 
-            function success(result) {
-                $scope.vacancies = result.rows;
-                $scope.total = result.total;
-            }
+        function success(result) {
+            $scope.vacancies = result.rows;
+            $scope.total = result.total;
+        }
 
-            $scope.retrieveList = function() {
-                $scope.promise = Vacancy.query($scope.query, success).$promise;
-            }
-            // Deletion confirm dialog
-            $scope.confirmDeletion = function(ev, data) {
-                var vacancyId = data;
-                var confirm = $mdDialog.confirm()
-                    .title('Удалить запись?')
-                    .textContent('Действие невозможно будет отменить.')
-                    .ariaLabel('Delete vacancy')
-                    .targetEvent(ev)
-                    .ok('ОК')
-                    .cancel('Отмена');
+        $scope.retrieveList = function() {
+            $scope.promise = Vacancy.query($scope.query, success).$promise;
+        }
+        // Deletion confirm dialog
+        $scope.confirmDeletion = function(ev, data) {
+            var vacancyId = data;
+            var confirm = $mdDialog.confirm()
+                .title('Удалить запись?')
+                .textContent('Действие невозможно будет отменить.')
+                .ariaLabel('Delete vacancy')
+                .targetEvent(ev)
+                .ok('ОК')
+                .cancel('Отмена');
 
-                $mdDialog.show(confirm).then(function() {
-                    $scope.promise = Vacancy.delete({id: vacancyId}).$promise;
-                    $scope.promise.then(function(response) {
-                        if (response.success) {
-                            $scope.retrieveList();
-                        }
-                    });
+            $mdDialog.show(confirm).then(function() {
+                $scope.promise = Vacancy.delete({id: vacancyId}).$promise;
+                $scope.promise.then(function(response) {
+                    if (response.success) {
+                        $scope.retrieveList();
+                    }
                 });
-            };
+            });
+        };
 
-            $scope.retrieveList();
-        })
-        .controller('SingleVacancyCtrl', function ($scope, $state, $stateParams, $http,Vacancy) {
-            var id = $stateParams.id || null;
-            $scope.state = $state.current;
-            $scope.params = $stateParams;
-            $scope.foundSkills = [];
-            $scope.vacancy = {
-                skills: []
-            };
-            $scope.selectedSkills = [];
-            $scope.searchText = null;
-            $scope.pageTitle = 'Редактировать вакансию';
-            $scope.matchesFound = false;
-            $scope.matches = {
-                partial: [],
-                full: []
-            }
+        $scope.retrieveList();
+    }
 
-            if (id) {
-                Vacancy.show({id: id}).$promise.then(function(response) {
-                    $scope.vacancy = response.data;
-                    $scope.vacancy.skills = response.skills;
-                    $scope.selectedSkills = response.data.skills;
+    function SingleVacancyCtrl ($scope, $state, $stateParams, $http, Vacancy) {
+        var id = $stateParams.id || null;
+        $scope.state = $state.current;
+        $scope.params = $stateParams;
+        $scope.foundSkills = [];
+        $scope.vacancy = {
+            skills: []
+        };
+        $scope.selectedSkills = [];
+        $scope.searchText = null;
+        $scope.pageTitle = 'Редактировать вакансию';
+        $scope.matchesFound = false;
+        $scope.matches = {
+            partial: [],
+            full: []
+        }
+
+        if (id) {
+            Vacancy.show({id: id}).$promise.then(function(response) {
+                $scope.vacancy = response.data;
+                $scope.vacancy.skills = response.skills;
+                $scope.selectedSkills = response.data.skills;
+            });
+        } else {
+            $scope.pageTitle = 'Добавить вакансию';
+        }
+
+        /**
+         * Save data
+         */
+        $scope.saveItem = function(data) {
+            if (data.id) {
+                Vacancy.update(data).$promise.then(function(response) {
+                    if (response.success) {
+                        $state.go('vacancies');
+                    }
+                    /* TODO implement errors parsing */
                 });
             } else {
-              $scope.pageTitle = 'Добавить вакансию';
-            }
-
-            /**
-             * Save data
-              */
-            $scope.saveItem = function(data) {
-                if (data.id) {
-                  Vacancy.update(data).$promise.then(function(response) {
+                Vacancy.save(data).$promise.then(function(response) {
                     if (response.success) {
-                      $state.go('vacancies');
+                        $state.go('vacancies');
                     }
                     /* TODO implement errors parsing */
-                  });
-                } else {
-                  Vacancy.save(data).$promise.then(function(response) {
-                    if (response.success) {
-                      $state.go('vacancies');
-                    }
-                    /* TODO implement errors parsing */
-                  });
-                }
-            }
-
-            /**
-             * Search for skills
-             */
-            $scope.querySearch = function (query) {
-                $http({
-                    url: '/skills',
-                    params: {query: query},
-                    method: 'GET'
-                }).then(function(response) {
-                    $scope.foundSkills = response.data;
-                    return response.data;
                 });
             }
+        }
 
-            /**
-             * Search for matching employees
-             * @param {integer} id
-             */
-            $scope.matchEmployees = function(id) {
-                Vacancy.matchEmployees({id: id}).$promise.then(function(response) {
-                    $scope.matchesFound = true;
-                    $scope.matches.full = response.full;
-                    $scope.matches.partial = response.partial;
-                });
+        /**
+         * Search for skills
+         */
+        $scope.querySearch = function (query) {
+            $http({
+                url: '/skills',
+                params: {query: query},
+                method: 'GET'
+            }).then(function(response) {
+                $scope.foundSkills = response.data;
+                return response.data;
+            });
+        }
+
+        /**
+         * Search for matching employees
+         * @param {integer} id
+         */
+        $scope.matchEmployees = function(id) {
+            Vacancy.matchEmployees({id: id}).$promise.then(function(response) {
+                $scope.matchesFound = true;
+                $scope.matches.full = response.full;
+                $scope.matches.partial = response.partial;
+            });
+        }
+
+        /**
+         * Go back button action
+         */
+        $scope.goBack = function() {
+            window.history.back();
+        }
+
+
+        $scope.transformChip = function(chip) {
+            if (angular.isObject(chip)) {
+                return chip;
             }
+        }
 
-            /**
-             * Go back button action
-             */
-            $scope.goBack = function() {
-                window.history.back();
-            }
-
-
-            $scope.transformChip = function(chip) {
-                if (angular.isObject(chip)) {
-                    return chip;
-                }
-            }
-
-        });
+    }
 })();
