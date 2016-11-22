@@ -1,27 +1,6 @@
 (function() {
     angular.module('agencyApp.employees', [])
-        .factory('Employee', function($resource) {
-            return $resource('/employees/:id', {}, {
-                query: {
-                    method: 'GET'
-                },
-                show: {
-                    method: 'GET'
-                },
-                update: {
-                    method: 'PUT',
-                    params: {id: '@id'}
-                },
-                matchVacancies: {
-                    url: '/employees/:id/get_matches',
-                    method: 'GET'
-                },
-                delete: {
-                    method: 'DELETE',
-                    params: {id: '@id'}
-                }
-            });
-        })
+        .factory('Employee', Employee)
         .controller('EmployeesCtrl', EmployeesCtrl)
         .controller('SingleEmployeeCtrl', SingleEmployeeCtrl)
         .filter('activeOrNot', function() {
@@ -30,8 +9,32 @@
             }
         });
 
+    Employee.$inject = ['$resource'];
     EmployeesCtrl.$inject = ['$scope', '$mdDialog', 'Employee'];
     SingleEmployeeCtrl.$inject = ['$scope', '$state', '$stateParams', '$http', 'Employee'];
+
+    function Employee($resource) {
+        return $resource('/employees/:id', {}, {
+            query: {
+                method: 'GET'
+            },
+            show: {
+                method: 'GET'
+            },
+            update: {
+                method: 'PUT',
+                params: {id: '@id'}
+            },
+            matchVacancies: {
+                url: '/employees/:id/get_matches',
+                method: 'GET'
+            },
+            delete: {
+                method: 'DELETE',
+                params: {id: '@id'}
+            }
+        });
+    }
 
     function EmployeesCtrl ($scope, $mdDialog, Employee) {
         var originatorEv;

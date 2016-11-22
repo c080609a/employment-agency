@@ -1,33 +1,36 @@
 (function() {
     angular.module('agencyApp.vacancies', ['ui.utils.masks'])
-        .factory('Vacancy', function($resource) {
-            return $resource('/vacancies/:id', {}, {
-                query: {
-                    method: 'GET'
-                },
-                show: {
-                    method: 'GET'
-                },
-                update: {
-                    method: 'PUT',
-                    params: {id: '@id'}
-                },
-                matchEmployees: {
-                    url: '/vacancies/:id/get_matches',
-                    method: 'GET'
-                },
-                delete: {
-                    method: 'DELETE',
-                    params: {id: '@id'}
-                }
-            });
-        })
+        .factory('Vacancy', Vacancy)
         .controller('VacanciesCtrl', VacanciesCtrl)
         .controller('SingleVacancyCtrl', SingleVacancyCtrl);
 
+    Vacancy.$inject = ['$resource'];
     VacanciesCtrl.$inject = ['$scope', '$mdDialog', 'Vacancy'];
+    SingleVacancyCtrl.$inject = ['$scope', '$state', '$stateParams', '$http', 'Vacancy'];
 
-    SingleVacancyCtrl.$inject = ['$scope', '$state', '$stateParams', '$http,Vacancy'];
+
+    function Vacancy ($resource) {
+        return $resource('/vacancies/:id', {}, {
+            query: {
+                method: 'GET'
+            },
+            show: {
+                method: 'GET'
+            },
+            update: {
+                method: 'PUT',
+                params: {id: '@id'}
+            },
+            matchEmployees: {
+                url: '/vacancies/:id/get_matches',
+                method: 'GET'
+            },
+            delete: {
+                method: 'DELETE',
+                params: {id: '@id'}
+            }
+        });
+    }
 
     function VacanciesCtrl ($scope, $mdDialog, Vacancy) {
 
