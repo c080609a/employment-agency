@@ -6,18 +6,27 @@ class VacanciesController < ApplicationController
 
   # get all items with sorting & pagination
   def index
-    ord = params[:order]
+    ord = params[:order] ? params[:order] : 'id'
     limit = params[:limit].to_i
     page = params[:page].to_i
     offset = (page - 1) * limit
-    if ord.to_s.start_with?('-') then
+
+    if ord.to_s.start_with?('-')
       dir = 'desc'
-      ord.gsub!(/\-/, '')
+      ord.gsub!(/\A\-/, '')
     else
       dir = 'asc'
     end
-    vacancies = Vacancy.order("#{ord} #{dir}").limit(limit).offset(offset)
-    total = vacancies.except(:limit, :offset).count
+
+    vacancies = Vacancy.order("#{ord} #{dir}")
+
+    if limit
+      vacancies = vacancies.limit(limit).offset(offset)
+      total = vacancies.except(:limit, :offset).count
+    else
+      total = vacancies.count
+    end
+
     render json: { rows: vacancies, total: total }
   end
 

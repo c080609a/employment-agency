@@ -6,25 +6,28 @@ class EmployeesController < ApplicationController
 
   # get all items with sorting & pagination
   def index
-    ord = params[:order]
+    ord = params[:order] ? params[:order] : 'id'
     limit = params[:limit].to_i
     page = params[:page].to_i
     offset = (page - 1) * limit
-    if ord.to_s.start_with?('-') then
+
+    if ord.to_s.start_with?('-')
       dir = 'desc'
-      ord.gsub!(/\-/, '')
+      ord.gsub!(/\A\-/, '')
     else
       dir = 'asc'
     end
-    employees = Employee.order("#{ord} #{dir}").limit(limit).offset(offset)
-    total = employees.except(:limit, :offset).count
-    render json: { rows: employees, total: total }
-  end
 
-  # delete item
-  def destroy
-    @employee.delete
-    render json: { success: @employee.destroyed? }
+    employees = Employee.order("#{ord} #{dir}")
+
+    if limit
+      employees = employees.limit(limit).offset(offset)
+      total = employees.except(:limit, :offset).count
+    else
+      total = employees.count
+    end
+
+    render json: { rows: employees, total: total }
   end
 
   # create item
@@ -38,6 +41,17 @@ class EmployeesController < ApplicationController
     render json: result
   end
 
+  # show single item
+  def show
+    render json: { data: @employee, skills: @skills }
+  end
+
+  # delete item
+  def destroy
+    @employee.delete
+    render json: { success: @employee.destroyed? }
+  end
+
   # update item
   def update
     @employee.update_skills(params[:id], params[:skills])
@@ -47,12 +61,6 @@ class EmployeesController < ApplicationController
       result = { success: false, errors: @employee.errors }
     end
     render json: result
-  end
-
-
-  # show single item
-  def show
-    render json: { data: @employee, skills: @skills }
   end
 
   def get_matches
