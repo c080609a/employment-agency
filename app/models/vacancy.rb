@@ -30,7 +30,7 @@ class Vacancy < ApplicationRecord
   # Update skills list
   def update_skills(id, skills)
     all_skills = Skill.all.pluck(:title)
-    # delete previous values for excluding duplicates
+    # delete previous values to prevent creating duplicates
     SkillsVacancy.delete_all(vacancy_id: id)
     skills.each do |skill|
       if (all_skills.exclude? skill) then

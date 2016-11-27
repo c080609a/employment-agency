@@ -37,7 +37,7 @@ class Employee < ApplicationRecord
   # Update skills list
   def update_skills(id, skills)
     all_skills = Skill.all.pluck(:title)
-    # delete previous values for excluding duplicates
+    # delete previous values to prevent creating duplicates
     SkillsEmployee.delete_all(employee_id: id)
     skills.each do |skill|
       if (all_skills.exclude? skill) then
