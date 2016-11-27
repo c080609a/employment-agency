@@ -1,33 +1,20 @@
 class VacanciesController < ApplicationController
 
+  include Arrangeable
+
   before_action :find_item, only: [:show, :update, :destroy, :get_matches]
   skip_before_action :verify_authenticity_token
   attr_accessor :skills
 
   # get all items with sorting & pagination
   def index
-    ord = params[:order] ? params[:order] : 'id'
-    limit = params[:limit].to_i
-    page = params[:page].to_i
-    offset = (page - 1) * limit
+    # get query params
+    query_params = get_params()
+    # retrieve employees with sorting & pagination
+    vacancies = Vacancy.order("#{query_params[:ord]} #{query_params[:dir]}")
+                    .paginate(:page => query_params[:page], :per_page => query_params[:limit])
 
-    if ord.to_s.start_with?('-')
-      dir = 'desc'
-      ord.gsub!(/\A\-/, '')
-    else
-      dir = 'asc'
-    end
-
-    vacancies = Vacancy.order("#{ord} #{dir}")
-
-    if limit
-      vacancies = vacancies.limit(limit).offset(offset)
-      total = vacancies.except(:limit, :offset).count
-    else
-      total = vacancies.count
-    end
-
-    render json: { rows: vacancies, total: total }
+    render json: { rows: vacancies, total: vacancies.total_entries }
   end
 
   # create item
