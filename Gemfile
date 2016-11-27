@@ -36,6 +36,8 @@ group :development, :test do
 
   # RSpec
   gem 'rspec-rails', :group => [:development, :test]
+
+  
 end
 
 group :development do

@@ -5,7 +5,7 @@ class Vacancy < ApplicationRecord
   validates_associated :skills_vacancies
   validates :title, presence: true
   validates :salary, presence: true, numericality: true
-  validates :expiry_date, date: true
+  validates :expiry_date, presence: true, date: true
 
   # Common method for matching
   def self.get_matches
