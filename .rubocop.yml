@@ -1,0 +1,9 @@
+inherit_from: .rubocop_rules.yml
+Rails:
+  Enabled: true
+AllCops:
+  TargetRubyVersion: 2.2
+  Exclude:
+    - 'db/**/*'
+    - 'vendor/**/*'
+    - 'spec/**/*.rb'

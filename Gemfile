@@ -57,4 +57,6 @@ gem 'rails_12factor', group: :production
 
 gem 'will_paginate'
 
+gem 'rubocop', group: [:development, :test]
+
 ruby "2.2.4"

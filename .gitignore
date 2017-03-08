@@ -19,3 +19,5 @@
 # Ignore Node
 /node_modules/*
 /.idea/*
+
+/config/database.yml

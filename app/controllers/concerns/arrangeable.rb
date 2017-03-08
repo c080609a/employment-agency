@@ -13,7 +13,7 @@ module Arrangeable
       dir = 'asc'
     end
 
-    return { page: page, limit: limit, ord: ord, dir: dir }
+    { page: page, limit: limit, ord: ord, dir: dir }
   end
 
 end
